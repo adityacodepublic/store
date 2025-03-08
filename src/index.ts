@@ -1,50 +1,26 @@
 import { SQL } from 'bun';
-import { Hono } from 'hono'
-
+import { Hono } from 'hono';
 
 const db = new SQL({
-  // Required
   url: "postgres://postgres:Rakesh27@database-1.c5ci48i8iai5.eu-north-1.rds.amazonaws.com:5432/storeIt",
-
-  // Optional configuration
-  // hostname: "localhost",
-  // port: 5432,
-  // database: "myapp",
-  // username: "dbuser",
-  // password: "secretpass",
-
-  // Connection pool settings
-  max: 20, // Maximum connections in pool
-  idleTimeout: 30, // Close idle connections after 30s
-  maxLifetime: 0, // Connection lifetime in seconds (0 = forever)
-  connectionTimeout: 30, // Timeout when establishing new connections
-
-  // SSL/TLS options
+  max: 20,
+  idleTimeout: 30,
+  maxLifetime: 0,
+  connectionTimeout: 30,
   tls: true,
-  // tls: {
-  //   rejectUnauthorized: true,
-  //   requestCert: true,
-  //   ca: "path/to/ca.pem",
-  //   key: "path/to/key.pem",
-  //   cert: "path/to/cert.pem",
-  //   checkServerIdentity(hostname, cert) {
-  //     ...
-  //   },
-  // },
-
-  // Callbacks
-  onconnect: client => {
-    console.log("Connected to database");
-  },
-  onclose: client => {
-    console.log("Connection closed");
-  },
+  onconnect: client => console.log("Connected to database"),
+  onclose: client => console.log("Connection closed"),
 });
 
-const app = new Hono()
+const app = new Hono();
 
-app.get('/', (c) => {
-  return db`SELECT * FROM student`
-})
+app.get('/', async (c) => {
+  try {
+    const result = await db`SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'`;
+    return c.json(result);
+  } catch (error) {
+    return c.json({ error: (error as Error).message }, 500);
+  }
+});
 
-export default app
+export default app;
