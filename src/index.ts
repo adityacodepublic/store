@@ -4,7 +4,7 @@ import { Hono } from 'hono'
 
 const db = new SQL({
   // Required
-  url: "postgres://user:pass@localhost:5432/dbname",
+  url: "postgres://postgres:Rakesh27@database-1.c5ci48i8iai5.eu-north-1.rds.amazonaws.com:5432/storeIt",
 
   // Optional configuration
   // hostname: "localhost",
@@ -44,7 +44,7 @@ const db = new SQL({
 const app = new Hono()
 
 app.get('/', (c) => {
-  return db`SELECT * FROM information_schema.tables LIMIT 100`
+  return db`SELECT * FROM student`
 })
 
 export default app
