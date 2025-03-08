@@ -7,11 +7,11 @@ const db = new SQL({
   url: "postgres://user:pass@localhost:5432/dbname",
 
   // Optional configuration
-  hostname: "localhost",
-  port: 5432,
-  database: "myapp",
-  username: "dbuser",
-  password: "secretpass",
+  // hostname: "localhost",
+  // port: 5432,
+  // database: "myapp",
+  // username: "dbuser",
+  // password: "secretpass",
 
   // Connection pool settings
   max: 20, // Maximum connections in pool
