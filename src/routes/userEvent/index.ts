@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { Webhook } from "svix";
 import { WebhookEvent } from "@clerk/backend";
-import { deleteUser, upsertUser } from "../db/user";
+import { deleteUser, upsertUser } from "@/db/user";
 
 const app = new Hono();
 
@@ -75,7 +75,7 @@ app.post("/", async (c) => {
   }
   else if ( evt.type === 'user.deleted' && evt.data.id) {
     const res = await deleteUser(evt.data.id);
-    if(res && typeof res === 'boolean') console.log("user successfully created / updated");
+    if(res && typeof res === 'boolean') console.log("user successfully deleted");
     else if(res instanceof Error) console.log(res);
   }
   // console.log("Webhook payload:", evt.data);
